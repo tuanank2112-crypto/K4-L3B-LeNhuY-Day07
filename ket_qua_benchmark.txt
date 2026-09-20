@@ -1,0 +1,27 @@
+======================================================================
+LAB 07: KẾT QUẢ BENCHMARK CHIẾN LƯỢC FIXED-SIZE CHUNKER (G41 - Lê Như Ý)
+======================================================================
+1. Tổng số tài liệu phân tích: 8 (Chủ đề E-Commerce Policy)
+2. Cấu hình FixedSizeChunker: chunk_size=500, overlap=50
+3. Tổng số chunks nạp Vector Store: 39
+4. Tỷ lệ câu hỏi có chunk liên quan trong Top-3: 3/5
+
+CHI TIẾT 5 CÂU HỎI BENCHMARK:
+- Câu hỏi 1: Thời gian áp dụng 1 đổi 1 miễn phí cho điện thoại bị lỗi nhà sản xuất tại CellphoneS là bao lâu?
+  Gold Answer: 1 đổi 1 trong vòng 30 ngày đầu tiên kể từ thời điểm nhận hàng (đối với đơn online không quá 5 ngày so với ngày xuất hóa đơn).
+  Target Document: cellphones-warranty-policy
+- Câu hỏi 2: Khách hàng mua phụ kiện dưới 1 triệu tại CellphoneS được bảo hành đổi mới như thế nào?
+  Gold Answer: Phụ kiện có giá dưới 1.000.000 VNĐ được đổi mới miễn phí trong vòng 01 năm (12 tháng) đối với hàng mới, hoặc đổi trong 01 tháng đối với hàng cũ.
+  Target Document: cellphones-warranty-policy
+- Câu hỏi 3: Chính sách đổi trả sản phẩm lỗi do nhà sản xuất tại FPT Shop quy định thời hạn đổi mới bao nhiêu ngày?
+  Gold Answer: 1 đổi 1 trong 30 ngày đầu đối với điện thoại, máy tính bảng, laptop nếu có lỗi phần cứng từ nhà sản xuất.
+  Target Document: fptshop-return-policy
+- Câu hỏi 4: Điều kiện và phí trả hàng khi máy không lỗi hoặc đổi ý tại CellphoneS trong 30 ngày đầu là bao nhiêu?
+  Gold Answer: Thu phí 20% đối với máy mới (15% đối với máy cũ) tính trên giá niêm yết hiện tại hoặc giá mua trên hóa đơn (lấy giá trị thấp hơn).
+  Target Document: cellphones-warranty-policy
+- Câu hỏi 5: Trách nhiệm và quy định thời hạn tiếp nhận xử lý bảo hành khi nhận sản phẩm từ người mua là gì?
+  Metadata Filter: {'audience': 'seller'}
+  Gold Answer: Người bán phải tiếp nhận và xử lý bảo hành trong vòng 48 giờ làm việc kể từ khi nhận sản phẩm, thời gian hoàn tất tối đa 14 ngày làm việc.
+  Target Document: seller-warranty-policy
+
+Xác nhận: Hoàn tất 42/42 tests pytest và chạy benchmark thành công.

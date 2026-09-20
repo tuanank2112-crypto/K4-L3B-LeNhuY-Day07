@@ -6,6 +6,13 @@ from pathlib import Path
 
 from dotenv import load_dotenv
 
+if sys.stdout.encoding and sys.stdout.encoding.lower() != "utf-8":
+    try:
+        sys.stdout.reconfigure(encoding="utf-8")
+        sys.stderr.reconfigure(encoding="utf-8")
+    except Exception:
+        pass
+
 from src.agent import KnowledgeBaseAgent
 from src.embeddings import (
     EMBEDDING_PROVIDER_ENV,
