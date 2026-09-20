@@ -118,21 +118,21 @@ chunks = chunker.chunk(body_text)
 
 | # | Câu hỏi (Query) | Câu trả lời chuẩn (Gold Answer) | Chunk nào chứa thông tin? |
 |:---:|---|---|---|
-| 1 | Thời gian áp dụng 1 đổi 1 miễn phí cho điện thoại bị lỗi nhà sản xuất tại CellphoneS là bao lâu? | 1 đổi 1 trong vòng 30 ngày đầu tiên kể từ thời điểm nhận hàng (đối với đơn online không quá 5 ngày so với ngày xuất hóa đơn). | `cellphones-warranty-policy #0` (Mục 1) |
-| 2 | Khách hàng mua phụ kiện dưới 1 triệu tại CellphoneS được bảo hành đổi mới như thế nào? | Phụ kiện có giá dưới 1.000.000 VNĐ được đổi mới miễn phí trong vòng 01 năm (12 tháng) đối với hàng mới, hoặc đổi trong 01 tháng đối với hàng cũ. | `cellphones-warranty-policy #2` (Mục 3) |
-| 3 | Chính sách đổi trả sản phẩm lỗi do nhà sản xuất tại FPT Shop quy định thời hạn đổi mới bao nhiêu ngày? | 1 đổi 1 trong 30 ngày đầu đối với điện thoại, máy tính bảng, laptop nếu có lỗi phần cứng từ nhà sản xuất. | `fptshop-return-policy #1` (Mục 1) |
-| 4 | Điều kiện và phí trả hàng khi máy không lỗi hoặc đổi ý tại CellphoneS trong 30 ngày đầu là bao nhiêu? | Thu phí 20% đối với máy mới (15% đối với máy cũ) tính trên giá niêm yết hiện tại hoặc giá mua trên hóa đơn (lấy giá trị thấp hơn). | `cellphones-warranty-policy #1` (Mục 2) |
-| 5 | Trách nhiệm và quy định thời hạn tiếp nhận xử lý bảo hành khi nhận sản phẩm từ người mua là gì? (`filter: audience=seller`) | Người bán phải tiếp nhận và xử lý bảo hành trong vòng 48 giờ làm việc kể từ khi nhận sản phẩm, thời gian hoàn tất tối đa 14 ngày làm việc. | `seller-warranty-policy #1` (Mục Quy định tiếp nhận) |
+| 1 | Tại Thế Giới Di Động, chính sách Bảo hành có cam kết trong 12 tháng quy định thời gian xử lý tối đa là bao nhiêu ngày? | Trong vòng 15 ngày (nếu quá hạn hoặc lỗi lại trong 30 ngày sẽ đổi máy mới tương đương hoặc hoàn tiền 100%). | `thegioididong-warranty-policy.md` (Mục 2: Bảo hành có cam kết) |
+| 2 | Thời gian bảo hành trung bình tại TTG Shop là bao nhiêu ngày và có chính sách hỗ trợ gì cho khách hàng? | Thời gian trung bình là 07 ngày làm việc (không tính CN & ngày lễ); có chính sách cho mượn sản phẩm thay thế miễn phí. | `ttgshop-warranty-policy.md` (Mục 2 & Mục 3) |
+| 3 | Tại CellphoneS, mức phí nhập lại đối với điện thoại mới khi khách hàng đổi ý trong 30 ngày đầu là bao nhiêu? | Thu phí 20% đối với máy mới (hoặc 15% đối với máy cũ) tính trên giá niêm yết hiện tại hoặc giá hóa đơn (giá nào thấp hơn). | `cellphones-warranty-policy.md` (Mục 2: Nhập lại theo nhu cầu) |
+| 4 | FPT Shop áp dụng chính sách 1 đổi 1 trong thời gian bao lâu đối với sản phẩm lỗi nhà sản xuất? | Áp dụng chính sách 1 đổi 1 trong vòng 30 ngày đầu tiên kể từ ngày xuất hóa đơn và nhận hàng thành công. | `fptshop-return-policy.md` (Mục 1: Chính sách 1 đổi 1) |
+| 5 | Đối với đơn hàng Shopee có quyết định Hoàn tiền ngay, Người bán có bao nhiêu ngày để gửi khiếu nại? | Người bán bắt buộc phải gửi khiếu nại trong vòng 02 ngày kể từ khi nhận được thông báo từ Shopee. | `seller-warranty-policy.md` (Mục 1: Trách nhiệm phản hồi của Người bán) |
 
 ### Tổng hợp chất lượng truy xuất của nhóm
 
 | # | Câu hỏi | Chiến lược tốt nhất cho câu này | Có chunk liên quan trong top-3? | Ghi chú |
 |:---:|---|---|:---:|---|
-| 1 | Thời hạn 1 đổi 1 CellphoneS | RecursiveChunker | Có (Top-1 với Recursive) | Mock embedding dễ nhầm từ khóa chung; Recursive gom ngữ cảnh đầy đủ hơn. |
-| 2 | Bảo hành phụ kiện dưới 1 triệu | FixedSize & Recursive | Có (Top-1 với FixedSize) | FixedSize chunk 500 giữ trọn bảng thông số phụ kiện. |
-| 3 | Đổi sản phẩm lỗi FPT Shop | RecursiveChunker | Có (Top-2 với FixedSize) | Cần ngữ cảnh phân biệt FPT Shop với Thế Giới Di Động. |
-| 4 | Phí trả hàng đổi ý CellphoneS | RecursiveChunker | Có (Top-3 với FixedSize) | Điều khoản phí 20% được trích xuất thành công. |
-| 5 | Quy định xử lý bảo hành cho người bán | FixedSize + Metadata Filter | Có (Top-1 chính xác 100%) | Bộ lọc `audience=seller` phát huy hiệu quả tối đa. |
+| 1 | Thời gian bảo hành có cam kết TGDĐ | FixedSize & Recursive | Có (Top-1 với FixedSize) | Cả FixedSize và Recursive đều bắt trúng mục 2 của Thế Giới Di Động. |
+| 2 | Thời gian bảo hành & hỗ trợ TTG Shop | FixedSize & Recursive | Có (Top-1 với FixedSize) | Trích xuất thành công thời hạn 7 ngày và chính sách mượn máy. |
+| 3 | Mức phí nhập lại điện thoại CellphoneS | RecursiveChunker | Có (Top-1 với Recursive) | Mock embedding nhầm sang TTG Shop ở FixedSize; Recursive giữ đúng ngữ cảnh. |
+| 4 | Thời hạn 1 đổi 1 lỗi NSX FPT Shop | RecursiveChunker | Có (Top-2 với FixedSize) | FixedSize trả FPT Shop ở Top-2; Recursive đưa lên Top-1. |
+| 5 | Thời hạn khiếu nại Hoàn tiền ngay Shopee | FixedSize + Metadata Filter | Có (Top-1 chính xác 100%) | Bộ lọc `audience=seller` cô lập đúng chính sách Người bán Shopee. |
 
 **Lọc bằng metadata có giúp ích không? Ở câu hỏi nào?**
 > **Lọc bằng metadata đóng vai trò cực kỳ quan trọng, thể hiện rõ nhất ở Câu hỏi 5.** Câu hỏi 5 không nói rõ người hỏi là người mua hay người bán ("Trách nhiệm và quy định tiếp nhận xử lý..."). Nếu không có `metadata_filter={"audience": "seller"}`, hệ thống sẽ trả về chính sách của người mua tại các sàn và agent sẽ đưa ra quy trình gửi yêu cầu của khách hàng thay vì trách nhiệm của người bán. Nhờ pre-filtering theo metadata, hệ thống đã loại trừ toàn bộ tài liệu người mua và chọn chính xác tài liệu người bán.

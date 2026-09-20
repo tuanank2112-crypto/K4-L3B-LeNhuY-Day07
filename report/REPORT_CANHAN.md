@@ -155,16 +155,16 @@ Chạy **5 câu hỏi đánh giá của nhóm** trên mã nguồn cá nhân vớ
 
 | # | Câu hỏi (Query) | Top-1 Chunk truy xuất được (tóm tắt) | Điểm Score | Có liên quan không? (Relevant) | Câu trả lời của Agent (tóm tắt) |
 |---|---|---|:---:|:---:|---|
-| 1 | Thời gian áp dụng 1 đổi 1 miễn phí cho điện thoại bị lỗi nhà sản xuất tại CellphoneS là bao lâu? | `ttgshop-warranty-policy #1`: Quy định số serial, tem niêm phong và tiếp nhận xử lý bảo hành. | 0.3638 | Không (nhầm sàn) | Trả lời trích từ quy định TTG Shop do mock embedding xếp hạng sai. |
-| 2 | Khách hàng mua phụ kiện dưới 1 triệu tại CellphoneS được bảo hành đổi mới như thế nào? | `cellphones-warranty-policy #0`: Tiêu đề và mục 1 đổi mới miễn phí CellphoneS. | 0.1903 | Có (Top-1) | Trả lời đúng chính sách đổi mới 12 tháng cho hàng mới và 1 tháng cho hàng cũ. |
-| 3 | Chính sách đổi trả sản phẩm lỗi do nhà sản xuất tại FPT Shop quy định thời hạn đổi mới bao nhiêu ngày? | `thegioididong-warranty-policy #1`: Cam kết đổi mới và thời gian xử lý cam kết 15 ngày. | 0.1982 | Có trong Top-2 (`fptshop #2`) | Agent trích xuất được điều khoản 30 ngày từ chunk FPT Shop ở vị trí Top-2. |
-| 4 | Điều kiện và phí trả hàng khi máy không lỗi hoặc đổi ý tại CellphoneS trong 30 ngày đầu là bao nhiêu? | `thegioididong-warranty-policy #0`: Điều khoản đổi trả theo nhu cầu Thế Giới Di Động. | 0.3487 | Có trong Top-3 (`thegioididong #4`) | Agent trích dẫn quy định thu phí 20% trong tháng đầu tiên từ chunk liên quan. |
-| 5 | Trách nhiệm và quy định thời hạn tiếp nhận xử lý bảo hành khi nhận sản phẩm từ người mua là gì? (`filter: audience=seller`) | `seller-warranty-policy #1`: Quy định tiếp nhận trong 48 giờ và tối đa 14 ngày làm việc. | 0.0981 | Có (Top-1 chính xác) | Trả lời chính xác trách nhiệm tiếp nhận trong 48h và xử lý tối đa 14 ngày cho người bán. |
+| 1 | Tại Thế Giới Di Động, chính sách Bảo hành có cam kết trong 12 tháng quy định thời gian xử lý tối đa là bao nhiêu ngày? | `thegioididong-warranty-policy #3`: Mục 2 Bảo hành có cam kết trong 12 tháng, xử lý trong vòng 15 ngày. | 0.3046 | Có (Top-1 chính xác) | Trả lời chính xác thời gian xử lý tối đa 15 ngày (quá hạn đổi máy mới tương đương hoặc hoàn tiền). |
+| 2 | Thời gian bảo hành trung bình tại TTG Shop là bao nhiêu ngày và có chính sách hỗ trợ gì cho khách hàng? | `ttgshop-warranty-policy #4`: Mục 2 & 3 quy định bảo hành và chính sách cho mượn thiết bị thay thế. | 0.3150 | Có (Top-1 chính xác) | Trả lời thời gian trung bình 07 ngày làm việc và có chính sách cho mượn sản phẩm thay thế miễn phí. |
+| 3 | Tại CellphoneS, mức phí nhập lại đối với điện thoại mới khi khách hàng đổi ý trong 30 ngày đầu là bao nhiêu? | `ttgshop-warranty-policy #1`: Thông tin tiếp nhận tem và số serial của TTG Shop. | 0.3225 | Không (nhầm sàn) | Mock embedding xếp nhầm chunk của TTG Shop lên đầu thay vì mục 2 CellphoneS. |
+| 4 | FPT Shop áp dụng chính sách 1 đổi 1 trong thời gian bao lâu đối với sản phẩm lỗi nhà sản xuất? | `dienmayxanh-warranty-policy #3`: Thẩm định lỗi tại nhà (Top-2: `fptshop #5`). | 0.2809 | Có trong Top-2 (`fptshop`) | Agent trích xuất được thời hạn 1 đổi 1 trong 30 ngày đầu tiên từ chunk FPT Shop ở Top-2. |
+| 5 | Đối với đơn hàng Shopee có quyết định Hoàn tiền ngay, Người bán có bao nhiêu ngày để gửi khiếu nại? (`filter: audience=seller`) | `seller-warranty-policy #1`: Người bán bắt buộc phải gửi khiếu nại trong vòng 02 ngày kể từ khi nhận thông báo. | 0.1009 | Có (Top-1 chính xác 100%) | Trả lời chính xác Người bán có 02 ngày để gửi khiếu nại đối với đơn Hoàn tiền ngay. |
 
-**Bao nhiêu câu hỏi trả về chunk có liên quan trong top-3?** 3 / 5
+**Bao nhiêu câu hỏi trả về chunk có liên quan trong top-3?** 4 / 5
 
 **Điều hay nhất tôi học được từ thành viên khác / nhóm khác (qua demo):**
-> Nhóm nhận thấy chiến lược FixedSizeChunker rất nhạy cảm với việc chọn kích thước: nếu chunk_size quá nhỏ (300) sẽ cắt vụn một điều khoản ra 2-3 phần, làm mất liên kết giữa tiêu đề và nội dung; trong khi chiến lược chia theo Heading/Section giữ trọn vẹn được một điều khoản pháp lý trong một đơn vị truy xuất. Tuy nhiên, FixedSize kết hợp với metadata filter (`audience`) vẫn chứng minh được sức mạnh phân lập ngữ cảnh tuyệt đối ở Query 5.
+> Nhóm nhận thấy chiến lược FixedSizeChunker rất nhạy cảm với việc chọn kích thước: nếu chunk_size quá nhỏ (300) sẽ cắt vụn một điều khoản ra 2-3 phần, làm mất liên kết giữa tiêu đề và nội dung; trong khi chiến lược chia theo Heading/Section giữ trọn vẹn được một điều khoản pháp lý trong một đơn vị truy xuất. Tuy nhiên, FixedSize kết hợp với metadata filter (`audience`) vẫn chứng minh được sức mạnh phân lập ngữ cảnh tuyệt đối ở Query 5 khi câu hỏi không nêu rõ vai trò người mua hay người bán.
 
 ---
 
