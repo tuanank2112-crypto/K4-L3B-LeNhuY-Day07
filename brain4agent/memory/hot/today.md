@@ -12,3 +12,4 @@
 - Hoàn thiện toàn bộ mã nguồn `src/chunking.py`, `src/store.py`, `src/agent.py`, vượt qua 42/42 bài kiểm thử tự động của Lab (`pytest tests/ -v`).
 - Thực hiện khảo sát & thực nghiệm phương pháp **Fixed-Size Chunking** (`chunk_size=500, overlap=50`) qua kịch bản `bench.py`.
 - Điền đầy đủ dữ liệu báo cáo cá nhân (`report/REPORT_CANHAN.md`) và báo cáo nhóm (`report/REPORT_NHOM.md`) cho nhóm **G41** với chiến lược cá nhân đã chọn là **Fixed-Size Chunking**.
+- Đồng bộ và cập nhật tệp báo cáo nhóm chính thức (`report/REPORT_NHOM.md`) từ bản hoàn thiện của trưởng nhóm (lead) tại `D:\download\lab\REPORT_NHOM.md`.
