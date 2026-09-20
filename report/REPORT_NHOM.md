@@ -1,7 +1,7 @@
 # Báo Cáo Nhóm — Lab 7: Embedding & Vector Store
 
 **Nhóm:** G41  
-**Thành viên:** Lê Như Ý, Nguyễn Văn A, Trần Thị B  
+**Thành viên:** Lê Như Ý, Trần Đình Hinh, Trần Tuấn Cường  
 **Ngày:** 2026-09-20  
 
 > **Nộp 1 bản / nhóm.** Phần cá nhân (hướng tiếp cận, kết quả riêng, dự đoán…) mỗi thành viên nộp riêng trong `REPORT_CANHAN.md`. Chi tiết thang điểm: `docs/SCORING.md`.
@@ -79,7 +79,7 @@ chunker = FixedSizeChunker(chunk_size=500, overlap=50)
 chunks = chunker.chunk(body_text)
 ```
 
-**Thành viên 2 — Nguyễn Văn A**
+**Thành viên 2 — Trần Đình Hinh**
 - **Loại chiến lược:** SentenceChunker (`max_sentences_per_chunk=3`)
 - **Mô tả & lý do chọn:** Chia nhỏ văn bản dựa trên ranh giới câu bằng biểu thức chính quy lookbehind, nhóm tối đa 3 câu thành một chunk. Chiến lược này giữ trọn vẹn ngữ pháp câu, phù hợp với các đoạn văn bản mô tả quy trình tiếp nhận bảo hành.
 - **Code snippet:**
@@ -89,7 +89,7 @@ chunker = SentenceChunker(max_sentences_per_chunk=3)
 chunks = chunker.chunk(body_text)
 ```
 
-**Thành viên 3 — Trần Thị B**
+**Thành viên 3 — Trần Tuấn Cường**
 - **Loại chiến lược:** RecursiveChunker (`chunk_size=500`, separators=`["\n\n", "\n", ". ", " ", ""]`)
 - **Mô tả & lý do chọn:** Chia đệ quy đa tầng ưu tiên ranh giới lớn trước (đoạn, xuống dòng, câu). Chiến lược này rất phù hợp với văn bản quy định TMĐT vì giữ nguyên được các mục điều khoản hoàn chỉnh (paragraph/section) trước khi phải tách nhỏ.
 - **Code snippet:**
@@ -104,8 +104,8 @@ chunks = chunker.chunk(body_text)
 | Thành viên | Chiến lược (Strategy) | Điểm truy xuất (/10) | Điểm mạnh | Điểm yếu |
 |---|---|:---:|---|---|
 | **Lê Như Ý** | FixedSizeChunker (`500/50`) | 8 / 10 | Tốc độ cực nhanh, dung lượng chunk đồng đều, dễ quản lý context. | Cắt không quan tâm ranh giới ngữ nghĩa, có thể làm tách tiêu đề khỏi nội dung. |
-| **Nguyễn Văn A** | SentenceChunker (`max=3`) | 7 / 10 | Đảm bảo ngữ nghĩa câu nguyên vẹn, không bao giờ bị cụt câu giữa chừng. | Dung lượng chunk chênh lệch lớn; danh sách liệt kê ngắn bị chia nhỏ quá mức. |
-| **Trần Thị B** | RecursiveChunker (`500`) | 9 / 10 | Cân bằng hoàn hảo: giữ trọn vẹn cấu trúc mục/đoạn, ít vỡ vụn ngữ cảnh. | Thuật toán đệ quy phức tạp hơn, thời gian xử lý lâu hơn khi dữ liệu lớn. |
+| **Trần Đình Hinh** | SentenceChunker (`max=3`) | 7 / 10 | Đảm bảo ngữ nghĩa câu nguyên vẹn, không bao giờ bị cụt câu giữa chừng. | Dung lượng chunk chênh lệch lớn; danh sách liệt kê ngắn bị chia nhỏ quá mức. |
+| **Trần Tuấn Cường** | RecursiveChunker (`500`) | 9 / 10 | Cân bằng hoàn hảo: giữ trọn vẹn cấu trúc mục/đoạn, ít vỡ vụn ngữ cảnh. | Thuật toán đệ quy phức tạp hơn, thời gian xử lý lâu hơn khi dữ liệu lớn. |
 
 **Chiến lược nào tốt nhất cho chủ đề này? Tại sao?**
 > **RecursiveChunker** là chiến lược tốt nhất cho chủ đề văn bản pháp quy/chính sách thương mại điện tử. Lý do là văn bản chính sách được cấu trúc chặt chẽ theo từng mục (`## Điều khoản`), và các quy định thường nằm trọn trong một đoạn văn (`\n\n`). RecursiveChunker giữ trọn vẹn được toàn bộ đoạn điều khoản đó trong một chunk duy nhất; chỉ khi điều khoản quá dài nó mới hạ xuống tách theo câu hoặc từ, giúp LLM nhận được ngữ cảnh đầy đủ nhất để trả lời chính xác.
